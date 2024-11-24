@@ -51,7 +51,8 @@ def grafico_linha(df_price, column, title, xlabel='Date', ylabel='', label='', f
     # Exibindo o gráfico
     plt.show()
 
-def grafico_retorno(df_price, column, title, xlabel='Date', ylabel='', label='', figsize=(12, 3)):
+def grafico_retorno(df_price, column, title, xlabel='Date', ylabel='', label='', figsize=(12, 3),
+                    deselocamento_do_texto=2):
     df_price = df_price.reset_index()  # Garantir que o índice está no formato correto
     sns.set(style="whitegrid", palette="muted")
     plt.figure(figsize=figsize)
@@ -71,13 +72,14 @@ def grafico_retorno(df_price, column, title, xlabel='Date', ylabel='', label='',
     plt.xticks(rotation=45)  # Rotacionando os rótulos da data para facilitar a leitura
     
     # Encontrando o valor final da variável e a data correspondente
+
     max_price_value = df_price[column].iloc[-1]
     max_price_date = df_price['Date'].iloc[-1]  # Usar 'Date' diretamente para pegar a última data
 
     # Anotando no gráfico o valor final
-    plt.annotate(f'R${max_price_value:.2f}',
+    plt.annotate(f'R$ {max_price_value:.2f}',
                      xy=(max_price_date, max_price_value),  # Posição no gráfico
-                     xytext=(max_price_date, max_price_value + 2),  # Deslocando o texto um pouco acima
+                     xytext=(max_price_date, max_price_value + deselocamento_do_texto),  # Deslocando o texto um pouco acima
                      arrowprops=dict(
                          facecolor='red',           
                          edgecolor='red',       
@@ -99,7 +101,10 @@ def grafico_retorno(df_price, column, title, xlabel='Date', ylabel='', label='',
 
 def grafico_sinais(dados, title):
     # Dados de exemplo
-    dados = dados['predicao'].value_counts()
+    try:
+        dados = dados['predicao'].value_counts()
+    except:
+        dados = dados['alvo_binario'].value_counts()
     dados = {'Sell': dados[0.0], 'Buy': dados[1.0]}
     labels = list(dados.keys())
     valores = list(dados.values())
