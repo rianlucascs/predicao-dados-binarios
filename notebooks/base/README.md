@@ -1,3 +1,5 @@
+ChatGPT: O quão ruim eu estou no quesito quant? notebook_base.ipynb
+
 Não diria que você está **ruim**, mas como em qualquer campo técnico, há espaço para crescimento e refinamento. Com base no que vi no seu código, sua base está sólida, mas alguns pontos podem ser melhorados. Vou destacar áreas onde você poderia melhorar no quesito "quant" e como isso pode impactar sua performance geral:
 
 ---
