@@ -1,32 +1,10 @@
 from yfinance import download
 import requests
-from pandas import read_csv
+from pandas import read_csv, to_datetime
 from io import StringIO
 import sys
 
-INDICES = {
-    'IDIV': 'Índice Dividendos BM&FBOVESPA (IDIV B3)',
-    'MLCX': 'Índice MidLarge Cap (MLCX B3)',
-    'SMLL': 'Índice Small Cap (SMLL B3)',
-    'IVBX': 'Índice Valor (IVBX 2 B3)',
-    'AGFS': 'Índice Agronegócio B3 (IAGRO B3)',
-    'IFNC': 'Índice BM&FBOVESPA Financeiro (IFNC B3)',
-    'IBEP': 'Índice Bovespa B3 Empresas Privadas (Ibov B3 Empresas Privadas)',
-    'IBEE': 'Índice Bovespa B3 Estatais (Ibov B3 Estatais)',
-    'IBHB': 'Índice Bovespa Smart High Beta B3 (Ibov Smart High Beta B3)',
-    'IBLV': 'Índice Bovespa Smart Low Volatility B3 (Ibov Smart Low B3)',
-    'IMOB': 'Índice Imobiliário (IMOB B3)',
-    'UTIL': 'Índice Utilidade Pública BM&FBOVESPA (UTIL B3)',
-    'ICON': 'Índice de Consumo (ICON B3)',
-    'IEEX': 'Índice de Energia Elétrica (IEE B3)',
-    'IFIL': 'Índice de Fundos de Investimentos Imobiliários de Alta Liquidez (IFIX L B3)',
-    'IMAT': 'Índice de Materiais Básicos BM&FBOVESPA (IMAT B3)',
-    'INDX': 'Índice do Setor Industrial (INDX B3)',
-    'IBSD': 'Índice Bovespa Smart Dividendos B3 (Ibov Smart Dividendos B3)',
-    'BDRX': 'Índice de BDRs Não Patrocinados-GLOBAL (BDRX B3)',
-    'IFIX': 'Índice de Fundos de Investimentos Imobiliários (IFIX B3)'
-}
-
+# Função para gerar a URL de um setor específico, acessando o repositório do GitHub
 url_setor = lambda setor: f'https://raw.githubusercontent.com/rianlucascs/b3-scraping-project/master/processed_data/1.%20%C3%8Dndices%20de%20Segmentos%20e%20Setoriais/Setores/{setor}/Tabela_{setor}.csv'
 
 class Prices:
@@ -52,10 +30,14 @@ class Prices:
         Returns:
             pandas.DataFrame: Dados históricos do ativo.
         """
-        df_price = download(ticker, period='max', progress=False)
-        df_price.columns = df_price.columns.droplevel(1)
-        df_price.columns = list(df_price.columns)
-        return df_price
+        # Baixa os dados históricos do ativo usando a API do Yahoo Finance
+        df = download(ticker, period='max', progress=False)
+
+        # Remove o nível extra das colunas, deixando apenas o nome da coluna
+        df.columns = df.columns.droplevel(1)
+        df.columns = list(df.columns)
+
+        return df
     
     @staticmethod
     def get_setor_B3(setor: str):
@@ -69,17 +51,25 @@ class Prices:
             dict: Dicionário contendo os ativos como chaves e os preços históricos como valores.
         """
         try:
+            # Acessa a URL para obter a lista de tickers do setor
             response = requests.get(url_setor(setor))
         except requests.exceptions.RequestException as e:
             raise ValueError(f'Erro ao acessar a página: {e}')
+        
+        # Lê os tickers de um arquivo CSV no formato de texto e extrai a coluna 'Código'
         tickers_setor = read_csv(StringIO(response.text), delimiter=',')['Código'].values
 
+        # Cria um dicionário para armazenar as séries históricas dos ativos
         dict_series_setor = {}
         for i, ticker in enumerate(tickers_setor):
             sys.stdout.write(f'\r [*********************100%***********************]  {i + 1} of {len(tickers_setor)} completed')
+            
+            # Para cada ticker, obtém os dados históricos e adiciona ao dicionário
             dict_series_setor[f'{ticker}.SA'] = Prices.get(f'{ticker}.SA')
 
         return dict_series_setor
+    
+
 
     
 
