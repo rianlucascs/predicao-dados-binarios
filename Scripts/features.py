@@ -57,6 +57,8 @@ class Features:
 
         return self.df
     
+    # Colunas permitidas df[['Adj Close', 'Close', 'High', 'Low', 'Open',  'Volume']]
+
     def __1__(self) -> DataFrame:
         return self.df['Close'].diff()
     

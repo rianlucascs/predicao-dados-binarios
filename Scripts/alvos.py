@@ -37,6 +37,9 @@ class Alvos:
         self.df = df.copy() 
         self.p = p
 
+        self.df['date_target'] = df.index
+        self.df['date_target'] = self.df['date_target'].shift(-p)
+        
         # Calcula a variação absoluta (Close - Open) e a desloca para o futuro
         self.df['variacao_absoluta'] = self.df['Close'] - self.df['Open']
         self.df['variacao_absoluta'] = self.df['variacao_absoluta'].shift(-p)
