@@ -88,7 +88,7 @@ class SplitData:
         Returns:
             pd.DataFrame: Dados de treino.
         """
-        return self.data_range.iloc[:self.split_index]
+        return self.data_range.iloc[:self.split_index].dropna() # <-!
 
     def test(self) -> DataFrame:
         """
@@ -97,7 +97,7 @@ class SplitData:
         Returns:
             pd.DataFrame: Dados de teste.
         """
-        return self.data_range.iloc[self.split_index:]
+        return self.data_range.iloc[self.split_index:].dropna() # <-!
 
     def after_test(self) -> DataFrame:
         """
@@ -106,4 +106,4 @@ class SplitData:
         Returns:
             pd.DataFrame: Dados pós-teste.
         """
-        return self.df.loc[self.end:].iloc[1:]
+        return self.df.loc[self.end:].iloc[1:].dropna() # <-!

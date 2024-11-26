@@ -43,7 +43,7 @@ class Features:
             TypeError: Se o argumento 'F' não for um inteiro ou uma lista de inteiros.
         """
         if isinstance(F, int):
-            F = [F]
+            self.F = [F]
         
         if isinstance(F, list):
             for f in F:
