@@ -60,9 +60,7 @@ class Graphs:
         self.df['variacao_percentual'] = self.df[self.column[0]].pct_change(1).shift(-1)
         sns.scatterplot(data=self.df, x='variacao_percentual', y=self.column[1], color='b', ax=ax)
         correlacao = self.df[self.column[0]].corr(self.df[self.column[1]])
-        ax.set_title(f"Dispersão entre '{self.column[0]} (pct_change)' e '{self.column[1]}'\n"
-                     f"Correlação de Pearson: {correlacao:.4f}", 
-                     fontsize=14, fontweight='bold')
+        self.title = f"Dispersão entre '{self.column[0]} (pct_change) (shift(-1))' e Feature: '{self.column[1]}' - Correlação de Pearson: {correlacao:.4f}"
         self._personalizar_grafico(ax)
         plt.tight_layout()
         plt.show()
