@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np
 
 class Graphs:
     """
@@ -20,7 +21,8 @@ class Graphs:
     """
 
     def __init__(self, df, column, figsize=(10, 6), linewidth=2, marker=None, title='', 
-                 xlabel='Data', ylabel='', bins=None, seta=False):
+                 xlabel='Data', ylabel='', bins=None, seta=False, fontsize_title=16,
+                 fontsize_xlabel=14, fontsize_ylabel=14, tick_params_labelsize=12):
         self.df = df
         self.column = column
         self.figsize = figsize
@@ -31,6 +33,10 @@ class Graphs:
         self.ylabel = ylabel
         self.bins = bins
         self.seta = seta
+        self.fontsize_title = fontsize_title
+        self.fontsize_xlabel = fontsize_xlabel
+        self.fontsize_ylabel = fontsize_ylabel
+        self.tick_params_labelsize = tick_params_labelsize
 
     def linha(self):
         """Gráfico de linha com personalização estatística."""
@@ -71,22 +77,89 @@ class Graphs:
         self.df['Ano'] = self.df['Date'].dt.year
         retornos_anuais = self.df.groupby('Ano')['resultado_predicao'].sum()
         sns.set(style="whitegrid")
-        fig, ax = plt.subplots(figsize=(12, 4), dpi=300)
+        fig, ax = plt.subplots(figsize=self.figsize, dpi=300)
         sns.barplot(x=retornos_anuais.index, y=retornos_anuais.values, color='skyblue', ax=ax)
         for i, value in enumerate(retornos_anuais.values):
             ax.text(i, value + 0.02, f"{value:.2f}", ha='center', va='bottom', fontsize=10, fontweight='bold')
-        ax.set_title("Retornos Anuais", fontsize=14, fontweight='bold')
         self._personalizar_grafico(ax)
         plt.tight_layout()
         plt.show()
 
+    def pio(self):
+
+        dados = self.df.filter(like=self.column).value_counts()
+        dados = {'Sell': dados[0.0], 'Buy': dados[1.0]}
+        labels = list(dados.keys())
+        valores = list(dados.values())
+
+        colors = ['skyblue', 'yellowgreen']  # Cores alinhadas com os gráficos anteriores
+        explode = [0.05, 0]  # Destacar um segmento, opcional
+
+        sns.set(style="whitegrid", palette="muted")
+        fig, ax = plt.subplots(figsize=self.figsize, dpi=150)
+        plt.pie(valores, labels=labels, autopct='%1.1f%%', startangle=90, colors=colors, explode=explode, 
+            wedgeprops={'edgecolor': 'black', 'linewidth': 1})
+        self._personalizar_grafico(ax)
+
+        plt.tight_layout()
+        plt.show()
+
+    def comparar_retornos(self, retorno_data):
+        """
+        Gráfico de barras agrupadas para comparação de retornos entre 'train', 'test' e 'after_test'.
+        
+        Parâmetros:
+            retorno_data (dict): Dicionário contendo as métricas de retorno.
+        """
+        # Preparar os dados
+        metrics = list(retorno_data['train'].keys())  # Métricas (ex.: daily, weekly)
+        datasets = list(retorno_data.keys())  # Conjuntos de dados (train, test, after_test)
+        values = {metric: [retorno_data[dataset][metric] for dataset in datasets] for metric in metrics}
+        
+        # Configuração do gráfico
+        x = np.arange(len(metrics))  # Posições das métricas no eixo X
+        width = 0.25  # Largura das barras
+
+        fig, ax = plt.subplots(figsize=self.figsize, dpi=300)
+
+        # Adicionar barras e valores no topo
+        for i, dataset in enumerate(datasets):
+            bar_positions = x + i * width
+            bar_heights = [values[metric][i] for metric in metrics]
+            bars = ax.bar(bar_positions, bar_heights, width, label=dataset)
+            
+            # Adicionar valores no topo de cada barra
+            for bar in bars:
+                height = bar.get_height()
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2,  # Centralizar o texto
+                    height,                            # Posição vertical
+                    f"{height:.2f}",                   # Formatação do valor
+                    ha='center', va='bottom',          # Centralizar e alinhar na parte de baixo
+                    fontsize=10, fontweight='bold'
+                )
+
+        # Personalizar o gráfico
+        ax.set_title("Comparação da Média dos Retornos por Métrica de t", fontsize=self.fontsize_title, fontweight='bold', family='Georgia')
+        ax.set_xlabel("Métricas", fontsize=self.fontsize_xlabel, family='Arial')
+        ax.set_ylabel("Valores (%)", fontsize=self.fontsize_ylabel, family='Arial')
+        ax.set_xticks(x + width)
+        ax.set_xticklabels(metrics, fontsize=self.tick_params_labelsize, rotation=45)
+        ax.legend(title="Conjunto de Dados", fontsize=12)
+        ax.grid(axis='y', linestyle='--', alpha=0.7)
+
+        # Exibir o gráfico
+        plt.tight_layout()
+        plt.show()
+
     def _personalizar_grafico(self, ax):
+        
         """Configuração de elementos básicos do gráfico."""
-        ax.set_title(self.title, fontsize=16, fontweight='bold', family='Georgia')
-        ax.set_xlabel(self.xlabel, fontsize=14, family='Arial')
-        ax.set_ylabel(self.ylabel, fontsize=14, family='Arial')
-        ax.tick_params(axis='x', rotation=45, labelsize=12)
-        ax.tick_params(axis='y', labelsize=12)
+        ax.set_title(self.title, fontsize=self.fontsize_title, fontweight='bold', family='Georgia')
+        ax.set_xlabel(self.xlabel, fontsize=self.fontsize_xlabel, family='Arial')
+        ax.set_ylabel(self.ylabel, fontsize=self.fontsize_ylabel, family='Arial')
+        ax.tick_params(axis='x', rotation=45, labelsize=self.tick_params_labelsize)
+        ax.tick_params(axis='y', labelsize=self.tick_params_labelsize)
         ax.grid(True, linestyle='--', alpha=0.5)
 
     def _adicionar_anotacao(self, ax):
