@@ -152,6 +152,59 @@ class Graphs:
         plt.tight_layout()
         plt.show()
 
+    def comparar_metricas(self, metric_data):
+        """
+        Gráfico de barras agrupadas para comparar métricas ('accuracy', 'precision', 'recall', 'f1_score') 
+        entre 'train', 'test' e 'after_test'.
+        
+        Parâmetros:
+            metric_data (dict): Dicionário contendo as métricas de cada conjunto de dados.
+        """
+        # Preparar os dados
+        metrics = ['accuracy', 'precision', 'recall', 'f1_score']  # Lista fixa de métricas
+        datasets = list(metric_data.keys())  # Conjuntos de dados (train, test, after_test)
+
+        # Criar estrutura de valores para cada métrica por dataset
+        values = {metric: [metric_data[dataset][metric] for dataset in datasets] for metric in metrics}
+        
+        # Configuração do gráfico
+        x = np.arange(len(metrics))  # Posições das métricas no eixo X
+        width = 0.25  # Largura das barras
+
+        fig, ax = plt.subplots(figsize=self.figsize, dpi=300)
+
+        # Adicionar barras e valores no topo
+        for i, dataset in enumerate(datasets):
+            bar_positions = x + i * width
+            bar_heights = [values[metric][i] for metric in metrics]
+            bars = ax.bar(bar_positions, bar_heights, width, label=dataset)
+            
+            # Adicionar valores no topo de cada barra
+            for bar in bars:
+                height = bar.get_height()
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2,  # Centralizar o texto
+                    height + 0.01,                     # Posição vertical um pouco acima da barra
+                    f"{height:.2f}",                   # Formatação do valor
+                    ha='center', va='bottom',          # Centralizar e alinhar na parte de baixo
+                    fontsize=10, fontweight='bold'
+                )
+
+        # Personalizar o gráfico
+        ax.set_title("Comparação de Métricas por Conjunto de Dados", fontsize=self.fontsize_title, fontweight='bold')
+        ax.set_xlabel("Métricas", fontsize=self.fontsize_xlabel)
+        ax.set_ylabel("Valores (%)", fontsize=self.fontsize_ylabel)
+        ax.set_xticks(x + width)
+        ax.set_xticklabels(metrics, fontsize=self.tick_params_labelsize, rotation=45)
+        ax.legend(title="Conjunto de Dados", fontsize=12)
+        ax.grid(axis='y', linestyle='--', alpha=0.7)
+
+        # Exibir o gráfico
+        plt.tight_layout()
+        plt.show()
+
+
+
     def _personalizar_grafico(self, ax):
         
         """Configuração de elementos básicos do gráfico."""
