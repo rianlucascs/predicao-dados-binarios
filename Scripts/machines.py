@@ -15,7 +15,7 @@ class Machines:
         self.train = train
         self.test = test
         self.after_test = after_test
-        self.F = [f'__{f}__' for f in F]
+        self.F = [f'__{f}__' for f in F] if isinstance(F, list) else F
 
         # Valida se as colunas das features existem nos conjuntos
         self._validate_features()
