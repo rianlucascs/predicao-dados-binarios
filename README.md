@@ -1,3 +1,5 @@
+# Predição de Dados Binários
+
 O objetivo principal deste projeto é transformar a variação diária de um ativo financeiro em um dado binário (0 ou 1) e, com base nisso, aplicar um modelo de machine learning (modelo X) para prever essa informação. Para alcançar esse objetivo, os dados são deslocados temporalmente, permitindo que a variação do dia atual seja utilizada para prever o comportamento do ativo no dia seguinte .
 
 Um dos pilares do projeto é o processo de feature engineering, que envolve a criação de variáveis explicativas projetadas para capturar os fatores que influenciam o movimento do preço no próximo dia. A eficácia da estratégia é medida por meio de métricas estatísticas, que proporcionam uma análise objetiva e precisa dos resultados.
