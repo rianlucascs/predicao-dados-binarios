@@ -62,8 +62,8 @@ class MarketBehaviorForecaster:
         df['resultado_predicao_acumulado'] = df['resultado_predicao'].cumsum()
         print(df)
 
-        GitHubClass('graphs').object(df, 'resultado_predicao_acumulado', (10, 5), 1, ylabel='Patrimônio Acumulado (Reais)', title='Train, Test and After Test', seta=True).linha()
+        # GitHubClass('graphs').object(df, 'resultado_predicao_acumulado', (10, 5), 1, ylabel='Patrimônio Acumulado (Reais)', title='Train, Test and After Test', seta=True).linha()
 
 
-MarketBehaviorForecaster('BBDC4.SA', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).generate()
+MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).generate()
 

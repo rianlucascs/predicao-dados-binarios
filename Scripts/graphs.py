@@ -22,7 +22,7 @@ class Graphs:
 
     def __init__(self, df, column, figsize=(10, 6), linewidth=2, marker=None, title='', 
                  xlabel='Data', ylabel='', bins=None, seta=False, fontsize_title=16,
-                 fontsize_xlabel=14, fontsize_ylabel=14, tick_params_labelsize=12):
+                 fontsize_xlabel=14, fontsize_ylabel=14, tick_params_labelsize=12, p=1):
         self.df = df
         self.column = column
         self.figsize = figsize
@@ -37,6 +37,7 @@ class Graphs:
         self.fontsize_xlabel = fontsize_xlabel
         self.fontsize_ylabel = fontsize_ylabel
         self.tick_params_labelsize = tick_params_labelsize
+        self.p = p
 
     def linha(self):
         """Gráfico de linha com personalização estatística e anotações opcionais."""
@@ -131,7 +132,7 @@ class Graphs:
         """Gráfico de dispersão entre duas variáveis com informações estatísticas e melhorias visuais."""
         
         # Calcular a variação percentual e armazenar na coluna 'variacao_percentual'
-        self.df['variacao_percentual'] = self.df[self.column[0]].pct_change(1).shift(-1)
+        self.df['variacao_percentual'] = self.df[self.column[0]].pct_change(1).shift(-self.p)
         
         # Calcular a correlação de Pearson entre as duas variáveis
         correlacao = self.df[self.column[0]].corr(self.df[self.column[1]])
