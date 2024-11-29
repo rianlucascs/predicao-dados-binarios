@@ -57,6 +57,10 @@ class Features:
 
         return self.df
     
+    # -----------------------------------------------------------------------------------------
+
+    # Adicione aqui suas features seguindo a ordem númerica
+
     # Colunas permitidas df[['Adj Close', 'Close', 'High', 'Low', 'Open',  'Volume']]
 
     def __1__(self) -> DataFrame:
