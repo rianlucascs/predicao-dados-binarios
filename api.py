@@ -189,7 +189,7 @@ class MarketForecastConfig:
         path (str): Caminho para os scripts locais, usado apenas se `import_local` for True.
     """
     def __init__(self, ticker: str, p: int = 1, target_type: str = 'A_BINARIO',
-                 features: Union[int, List[int]] = [], start: str = 'YYYY-MM-DD',
+                 features: Union[int, List[int], None] = [], start: str = 'YYYY-MM-DD',
                  end: str = 'YYYY-MM-DD', step_size: Union[int, None] = None,
                  ml_model: str = 'train_decision_tree', enable_debug: bool = False,
                  contracts: int = 100, import_local: bool = False, path : str = ''):
@@ -218,7 +218,7 @@ class MarketBehaviorForecaster(MarketForecastConfig):
         ``run_forecast()``:
             Executa o pipeline completo de previsão, desde o carregamento de dados até a consolidação dos resultados.
     """
-    def run_forecast(self):
+    def run_forecast(self, external_variable=None):
         """
         Executa o pipeline completo de previsão de mercado.
 
@@ -240,7 +240,11 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             df = getattr(GitHubScriptLoader('alvos').object(df, p=self.p), self.target_type)
 
             # Adicionando features
-            df = GitHubScriptLoader('features').object(df).get(self.features)
+            if external_variable:
+                self.features = [0]
+                df['__0__'] = external_variable(df)
+            else:
+                df = GitHubScriptLoader('features').object(df).get(self.features)
 
             # Divisão dos dados
             sd = GitHubScriptLoader('split_data').object(df, self.start, self.end, step_size=self.step_size)
@@ -265,7 +269,6 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             df = concat([train, test, after_test], axis=0)
             df['resultado_predicao_acumulado'] = df['resultado_predicao'].cumsum()
             
-            
             return {
                 "metrics": {
                     "model": ml.evaluate(),
@@ -277,14 +280,15 @@ class MarketBehaviorForecaster(MarketForecastConfig):
                     "after_test": after_test,
                     "df": df
                 },
-                "graphs": graphs.Graphs
+                "graphs": GitHubScriptLoader('graphs').object
             }
 
         except Exception as e:
             print(f"Erro na execução: {e}")
             raise
 
-# mb = MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast()
+mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None
+                              ).run_forecast(external_variable=lambda x: x.Close.diff())
 
 
 class MarketBehaviorForecasterLocal(MarketForecastConfig):
@@ -381,7 +385,6 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
                 "graphs": graphs.Graphs
                 
             }
-
         
         except Exception as e:
             print(f"Erro na execução: {e}")
