@@ -13,6 +13,16 @@ Além disso, este projeto serve como alicerce para abordagens mais avançadas, f
     python -m pip install -r https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/requirements.txt
     ```
 
+2. Acessar os dados
+    ```python
+    import requests
+
+    response = requests.get('https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/api.py')
+
+    exec(response.text, globals())
+
+    Market = MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast()
+    ```
 
 # Gráficos (Saídas)
 
