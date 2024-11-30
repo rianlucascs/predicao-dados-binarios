@@ -276,8 +276,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
                     "test": test,
                     "after_test": after_test,
                     "df": df
-                }
-                
+                },
+                "graphs": graphs.Graphs
             }
 
         except Exception as e:
@@ -377,7 +377,8 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
                     "test": test,
                     "after_test": after_test,
                     "df": df
-                }
+                },
+                "graphs": graphs.Graphs
                 
             }
 
