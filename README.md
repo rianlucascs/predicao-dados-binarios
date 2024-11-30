@@ -123,6 +123,7 @@ return {
 | 2012-05-23 | 54619.0   | 54619.0 | 55052.0| 53028.0| 55039.0| 4334000  | 2012-05-24  | -557.0            | 0.0          | -420.0 | -1547.0| 0.0      | 55700.0            | 218300.0                     |
 | 2012-05-24 | 54063.0   | 54063.0 | 54820.0| 53176.0| 54620.0| 4013800  | 2012-05-25  | 401.0             | 1.0          | -556.0 | -419.0 | 0.0      | -40100.0           | 178200.0                     |
 
+Saiba mais: **[/predicao_dados_binarios.ipynb](https://github.com/rianlucascs/predicao-dados-binarios/blob/master/predicao_dados_binarios.ipynb)**
 
 # Gráficos
 
@@ -149,3 +150,14 @@ return {
 ![image](https://github.com/user-attachments/assets/c3528b7f-81d7-4e56-ae25-2e370477f093)
 ![image](https://github.com/user-attachments/assets/0d96bdc5-fbf9-4a75-9481-cf3eef0f9ac3)
 ![image](https://github.com/user-attachments/assets/7096a07b-fb19-447d-a70f-795f5028a1bc)
+
+## Contato
+
+Estou à disposição para esclarecer dúvidas ou fornecer mais informações. Você pode entrar em contato através das seguintes opções:
+
+- **LinkedIn:** [Visite meu perfil no LinkedIn](www.linkedin.com/in/rian-lucas)
+- **GitHub:** [Explore meu repositório no GitHub](https://github.com/rianlucascs)
+- **Celular:** +55 61 96437-9500
+
+
+Fico sempre aberto a colaborações e oportunidades de networking!
