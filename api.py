@@ -138,7 +138,7 @@ class GitHubScriptLoader:
             response = self._response(self.script_name)
             
             # Construir o nome da classe com base no nome do script
-            class_name = self.script_name.replace('_', '').title()
+            class_name = self.script_name.title().replace('_', '')
             
             # Executa o código do script no escopo local
             exec(response.text, globals())

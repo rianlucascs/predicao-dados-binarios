@@ -10,7 +10,7 @@ Além disso, este projeto serve como alicerce para abordagens mais avançadas, f
 
 1. Instalação das bibliotecas 
     ```bash
-    python -m pip install -r https://github.com/rianlucascs/predicao-dados-binarios/blob/master/requirements.txt
+    python -m pip install -r https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/requirements.txt
     ```
 
 
