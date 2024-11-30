@@ -268,8 +268,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             
             return {
                 "metrics": {
-                    "model": ml.evaluete(),
-                    "returns": rp.evaluete()
+                    "model": ml.evaluate(),
+                    "returns": rp.evaluate()
                 },
                 "df": {
                     "train": train,
@@ -368,8 +368,8 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
             
             return {
                 "metrics": {
-                    "model": ml.evaluete(),
-                    "returns": rp.evaluete()
+                    "model": ml.evaluate(),
+                    "returns": rp.evaluate()
                 },
                 "df": {
                     "train": train,
