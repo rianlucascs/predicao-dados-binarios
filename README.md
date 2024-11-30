@@ -1,3 +1,5 @@
+![coin-flip-24](https://github.com/user-attachments/assets/367a997f-c13b-48c9-93ee-f71c71525ff9)
+
 # Predição de Dados Binários
 
 O objetivo principal deste projeto é transformar a variação diária de um ativo financeiro em um dado binário (0 ou 1) e, com base nisso, aplicar um modelo de machine learning (modelo X) para prever essa informação. Para alcançar esse objetivo, os dados são deslocados temporalmente, permitindo que a variação do dia atual seja utilizada para prever o comportamento do ativo no dia seguinte .
