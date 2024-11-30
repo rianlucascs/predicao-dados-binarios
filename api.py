@@ -352,7 +352,8 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
             # Consolidação dos resultados
             df = concat([train, test, after_test], axis=0)
             df['resultado_predicao_acumulado'] = df['resultado_predicao'].cumsum()
-            print(df)
+            
+            return df
 
             # GitHubClass('graphs').object(df, 'resultado_predicao_acumulado', (10, 5), 1, ylabel='Patrimônio Acumulado (Reais)', title='Train, Test and After Test', seta=True).linha()
         
