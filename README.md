@@ -19,16 +19,22 @@ Além disso, este projeto serve como alicerce para abordagens mais avançadas, f
     ```python
     import requests
 
+    # Baixar o script do repositório
     response = requests.get('https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/api.py')
 
+    # Executar o código do script
     exec(response.text, globals())
 
-    # Indicado para consultas rápidas
-    Market = MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast()
+    # Realizar previsão utilizando o script hospedado na web
+    mb = MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast()
 
-    # Indicado para processos de otimização
-    Market = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
+    # Realizar previsão utilizando o script local (com download e importação local)
+    mb = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
+
+    # Gerar gráfico
+    mb['graphs'](mb['df']['df'], 'Adj Close', (15, 5), 2, ylabel='Adj Close', title='^BVSP', seta=True).linha()
     ```
+    
 # Saídas
 
 ```python
@@ -42,7 +48,8 @@ return {
         "test": test,
         "after_test": after_test,
         "df": df
-    }
+    },
+    "graphs": graphs.Graphs
 }
 ```
 ## metrics
