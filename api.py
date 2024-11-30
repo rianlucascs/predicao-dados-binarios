@@ -284,7 +284,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise
 
-# MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast()
+# mb = MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast()
+
 
 class MarketBehaviorForecasterLocal(MarketForecastConfig):
     """
@@ -385,5 +386,5 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise  
 
-
-# MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
+# mb = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
+# print(mb)
