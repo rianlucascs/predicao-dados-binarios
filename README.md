@@ -13,9 +13,10 @@ Além disso, este projeto serve como alicerce para abordagens mais avançadas, f
     python -m pip install -r https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/requirements.txt
     ```
 
+> **Nota:** Este script foi criado para execução **local** no Visual Studio Code. Certifique-se de configurar o ambiente corretamente antes de utilizá-lo.
+
 2. Acessar os dados
     ```python
-
     import requests
 
     response = requests.get('https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/api.py')
@@ -30,7 +31,7 @@ Além disso, este projeto serve como alicerce para abordagens mais avançadas, f
     ```
 
 
-# Gráficos (Saídas)
+# Gráficos
 
 ![image](https://github.com/user-attachments/assets/7035df8f-b917-4280-ac62-efa7a1ab84ee)
 ![image](https://github.com/user-attachments/assets/e29f78e9-bdac-4fa4-9f3f-6fcdae1bf251)

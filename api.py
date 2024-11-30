@@ -265,7 +265,20 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             df = concat([train, test, after_test], axis=0)
             df['resultado_predicao_acumulado'] = df['resultado_predicao'].cumsum()
             
-            return df
+            
+            return {
+                "metrics": {
+                    "model": ml.evaluete(),
+                    "returns": rp.evaluete()
+                },
+                "df": {
+                    "train": train,
+                    "test": test,
+                    "after_test": after_test,
+                    "df": df
+                }
+                
+            }
 
         except Exception as e:
             print(f"Erro na execução: {e}")
@@ -353,9 +366,20 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
             df = concat([train, test, after_test], axis=0)
             df['resultado_predicao_acumulado'] = df['resultado_predicao'].cumsum()
             
-            return df
+            return {
+                "metrics": {
+                    "model": ml.evaluete(),
+                    "returns": rp.evaluete()
+                },
+                "df": {
+                    "train": train,
+                    "test": test,
+                    "after_test": after_test,
+                    "df": df
+                }
+                
+            }
 
-            # GitHubClass('graphs').object(df, 'resultado_predicao_acumulado', (10, 5), 1, ylabel='Patrimônio Acumulado (Reais)', title='Train, Test and After Test', seta=True).linha()
         
         except Exception as e:
             print(f"Erro na execução: {e}")
