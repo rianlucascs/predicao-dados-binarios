@@ -6,6 +6,15 @@ Um dos pilares do projeto é o processo de feature engineering, que envolve a cr
 
 Além disso, este projeto serve como alicerce para abordagens mais avançadas, focadas na otimização e na identificação das features com maior poder preditivo. Ele também permite avaliar a viabilidade prática da estratégia, levando em consideração aspectos fundamentais como a eficiência na execução e a alocação de capital necessária para sua implementação.
 
+# Acesso ao Script
+
+1. Instalação das bibliotecas 
+    ```bash
+    python -m pip install -r https://github.com/rianlucascs/predicao-dados-binarios/blob/master/requirements.txt
+    ```
+
+
+# Gráficos (Saídas)
 
 ![image](https://github.com/user-attachments/assets/7035df8f-b917-4280-ac62-efa7a1ab84ee)
 ![image](https://github.com/user-attachments/assets/e29f78e9-bdac-4fa4-9f3f-6fcdae1bf251)
