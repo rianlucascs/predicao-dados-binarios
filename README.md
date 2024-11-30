@@ -15,14 +15,20 @@ Além disso, este projeto serve como alicerce para abordagens mais avançadas, f
 
 2. Acessar os dados
     ```python
+
     import requests
 
     response = requests.get('https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/api.py')
 
     exec(response.text, globals())
 
+    # Indicado para consultas rápidas
     Market = MarketBehaviorForecaster('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast()
+
+    # Indicado para processos de otimização
+    Market = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
     ```
+
 
 # Gráficos (Saídas)
 
