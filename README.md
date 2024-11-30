@@ -1,4 +1,4 @@
-![coin-flip-24](https://github.com/user-attachments/assets/367a997f-c13b-48c9-93ee-f71c71525ff9)
+![coin-flip-24](https://usagif.com/wp-content/uploads/gifs/coin-flip-18.gif)
 
 # Predição de Dados Binários
 
