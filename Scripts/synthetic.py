@@ -8,7 +8,7 @@ class Synthetic:
         url = 'https://raw.githubusercontent.com/rianlucascs/simulacao-de-monte-carlo/master/Scripts/monte_carlo.py'
         response = requests.get(url)
         exec(response.text, globals())
-        monaco = MonteCarlo(ticker, '5y')
+        monaco = MonteCarlo(ticker, 'max')
         result = monaco.simulacao(n_simulacao=1, custo_operacional=0)
         return monaco.loc_sim(result, 0)
 
