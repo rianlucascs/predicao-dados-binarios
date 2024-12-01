@@ -10,10 +10,11 @@ class Synthetic:
         response = requests.get(url)
         exec(response.text, globals())
         monaco = MonteCarlo(ticker, 'max')
-        result = monaco.simulacao(n_simulacao=1, custo_operacional=0)
-        result.index = to_datetime(result.index)
-        return monaco.loc_sim(result, 0)
+        df = monaco.simulacao(n_simulacao=1, custo_operacional=0)
+        df.index = to_datetime(df.index).normalize()
+        monaco = monaco.loc_sim(df, 0)
+        return monaco
 
 
-# print(Synthetic.monte_carlo('VALE3.SA', '5y', 1, 0))
+# print(Synthetic.monte_carlo('VALE3.SA'))
 
