@@ -193,7 +193,9 @@ class MarketForecastConfig:
                  end: str = 'YYYY-MM-DD', step_size: Union[int, None] = None,
                  ml_model: str = 'train_decision_tree', enable_debug: bool = False,
                  contracts: int = 100, import_local: bool = False, path : str = '',
-                 synthetic_serie: Union[None, str] = None):
+                 synthetic_serie: Union[None, str] = None, period_simulacao: str='5y',
+                 numero_simulacoes: int = 5, loc_simulacao: int = 1):
+        
         self.ticker = ticker
         self.p = p
         self.target_type = target_type
@@ -207,6 +209,9 @@ class MarketForecastConfig:
         self.import_local = import_local
         self.path = path
         self.synthetic_serie = synthetic_serie
+        self.period_simulacao = period_simulacao
+        self.numero_simulacoes = numero_simulacoes
+        self.loc_simulacao = loc_simulacao
 
 class MarketBehaviorForecaster(MarketForecastConfig):
     """
@@ -237,7 +242,9 @@ class MarketBehaviorForecaster(MarketForecastConfig):
         try:
             # Carregamento dos dados de preços
             if self.synthetic_serie:
-                df = getattr(GitHubScriptLoader('synthetic').object, self.synthetic_serie)
+                df = getattr(GitHubScriptLoader('synthetic').object, self.synthetic_serie)(
+                    self.ticker, self.period_simulacao, self.numero_simulacoes, self.loc_simulacao
+                )
             else:
                 df = GitHubScriptLoader('prices').object.get(self.ticker)
 
@@ -292,8 +299,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise
 
-# mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None
-#                               ).run_forecast(external_variable=lambda x: x.Close.diff())
+mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None,
+                              synthetic_serie='monte_carlo').run_forecast(external_variable=lambda x: x.Close.diff())
 
 # print(mb['df']['df'])
 
