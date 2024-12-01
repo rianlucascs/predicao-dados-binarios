@@ -37,8 +37,6 @@ class Prices:
         df.columns = df.columns.droplevel(1)
         df.columns = list(df.columns)
 
-        df.index = to_datetime(df.index).normalize()
-
         return df
     
     @staticmethod
@@ -70,8 +68,12 @@ class Prices:
             dict_series_setor[f'{ticker}.SA'] = Prices.get(f'{ticker}.SA')
 
         return dict_series_setor
-    
 
+# from datetime import datetime
+# df = Prices.get('BBDC4.SA')
+# # df.index = df.index.tz_localize(None)
+# date = datetime.strptime('2012-05-11', '%Y-%m-%d')
+# print(df.loc[date:])
 
     
 
