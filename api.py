@@ -193,8 +193,7 @@ class MarketForecastConfig:
                  end: str = 'YYYY-MM-DD', step_size: Union[int, None] = None,
                  ml_model: str = 'train_decision_tree', enable_debug: bool = False,
                  contracts: int = 100, import_local: bool = False, path : str = '',
-                 synthetic_serie: Union[None, str] = None, period_simulacao: str='5y',
-                 numero_simulacoes: int = 5, loc_simulacao: int = 1):
+                 synthetic_serie: Union[None, str] = None):
         
         self.ticker = ticker
         self.p = p
@@ -209,9 +208,6 @@ class MarketForecastConfig:
         self.import_local = import_local
         self.path = path
         self.synthetic_serie = synthetic_serie
-        self.period_simulacao = period_simulacao
-        self.numero_simulacoes = numero_simulacoes
-        self.loc_simulacao = loc_simulacao
 
 class MarketBehaviorForecaster(MarketForecastConfig):
     """
@@ -242,9 +238,7 @@ class MarketBehaviorForecaster(MarketForecastConfig):
         try:
             # Carregamento dos dados de preços
             if self.synthetic_serie:
-                df = getattr(GitHubScriptLoader('synthetic').object, self.synthetic_serie)(
-                    self.ticker, self.period_simulacao, self.numero_simulacoes, self.loc_simulacao
-                )
+                df = getattr(GitHubScriptLoader('synthetic').object, self.synthetic_serie)(self.ticker)
             else:
                 df = GitHubScriptLoader('prices').object.get(self.ticker)
 
@@ -253,6 +247,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
 
             # Adicionando features
             if external_variable:
+                
+                # Adiciona features criadas
                 self.features = [0]
                 df['__0__'] = external_variable(df)
             else:
@@ -299,8 +295,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise
 
-mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None,
-                              synthetic_serie='monte_carlo').run_forecast(external_variable=lambda x: x.Close.diff())
+# mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None,
+#                               synthetic_serie='monte_carlo').run_forecast(external_variable=lambda x: x.Close.diff())
 
 # print(mb['df']['df'])
 
@@ -345,9 +341,9 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
         
         # Importa os módulos salvos localmente após o download
         try:
-            global alvos, features, graphs, machines, prices, result_predict, split_data
+            global alvos, features, graphs, machines, prices, result_predict, split_data, synthetic
             from MarketForecast import (
-                alvos, features, graphs, machines, prices, result_predict, split_data
+                alvos, features, graphs, machines, prices, result_predict, split_data, synthetic
             )
         except ImportError as e:
             raise ImportError(f"Erro ao importar os módulos locais após o download: {e}")
@@ -404,5 +400,5 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise  
 
-# mb = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
-# print(mb)
+mb = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
+print(mb)
