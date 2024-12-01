@@ -290,6 +290,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
 mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None
                               ).run_forecast(external_variable=lambda x: x.Close.diff())
 
+# print(mb['df']['df'])
+
 
 class MarketBehaviorForecasterLocal(MarketForecastConfig):
     """
