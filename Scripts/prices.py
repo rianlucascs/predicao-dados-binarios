@@ -37,6 +37,8 @@ class Prices:
         df.columns = df.columns.droplevel(1)
         df.columns = list(df.columns)
 
+        df.index = to_datetime(df.index).normalize()
+
         return df
     
     @staticmethod
@@ -72,7 +74,6 @@ class Prices:
 
 
     
-
 
     
         

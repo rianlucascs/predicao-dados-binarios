@@ -237,10 +237,7 @@ class MarketBehaviorForecaster(MarketForecastConfig):
         """
         try:
             # Carregamento dos dados de preços
-            if self.synthetic_serie:
-                df = getattr(GitHubScriptLoader('synthetic').object, self.synthetic_serie)(self.ticker)
-            else:
-                df = GitHubScriptLoader('prices').object.get(self.ticker)
+            df = GitHubScriptLoader('prices').object.get(self.ticker)
 
             # Criação dos alvos
             df = getattr(GitHubScriptLoader('alvos').object(df, p=self.p), self.target_type)
@@ -350,10 +347,7 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
         
         try:
             # Carregamento dos dados de preços
-            if self.synthetic_serie:
-                df = getattr(synthetic.Synthetic, self.synthetic_serie)
-            else:
-                df = prices.Prices.get(self.ticker)
+            df = prices.Prices.get(self.ticker)
             
             # Criação dos alvos
             df = getattr(alvos.Alvos(df, p=self.p), self.target_type)
@@ -403,6 +397,6 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise  
 
-mb = MarketBehaviorForecasterLocal('BBDC4.SA', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None,
-                                   ).run_forecast_local()
-print(mb)
+# mb = MarketBehaviorForecasterLocal('BBDC4.SA', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None,
+#                                    ).run_forecast_local()
+# print(mb)
