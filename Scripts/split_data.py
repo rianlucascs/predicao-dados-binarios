@@ -24,7 +24,7 @@ class SplitData:
         if not isinstance(df.index, DatetimeIndex):
             raise ValueError("O índice do DataFrame deve ser do tipo `DatetimeIndex`.")
 
-        self.df = df.copy()
+        self.df = df.copy().tz_localize(None)
 
         # Atribui as datas de início e fim com base nos parâmetros ou no índice do DataFrame
         self.start = self._parse_date(start, df.index.min())
