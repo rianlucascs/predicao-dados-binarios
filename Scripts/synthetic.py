@@ -13,5 +13,5 @@ class Synthetic:
         return monaco.loc_sim(result, 0)
 
 
-print(Synthetic.monte_carlo('VALE3.SA', '5y', 1, 0))
+# print(Synthetic.monte_carlo('VALE3.SA', '5y', 1, 0))
 

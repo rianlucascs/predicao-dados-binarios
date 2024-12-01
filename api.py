@@ -350,7 +350,10 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
         
         try:
             # Carregamento dos dados de preços
-            df = prices.Prices.get(self.ticker)
+            if self.synthetic_serie:
+                df = getattr(synthetic.Synthetic, self.synthetic_serie)
+            else:
+                df = prices.Prices.get(self.ticker)
             
             # Criação dos alvos
             df = getattr(alvos.Alvos(df, p=self.p), self.target_type)
@@ -400,5 +403,6 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise  
 
-mb = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None).run_forecast_local()
+mb = MarketBehaviorForecasterLocal('^BVSP', features=[1, 2], start='2012-05-11', end='2022-05-11', step_size=None,
+                                   ).run_forecast_local()
 print(mb)
