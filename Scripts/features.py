@@ -68,3 +68,17 @@ class Features:
     
     def __2__(self) -> DataFrame:
         return self.df['Open'].diff()
+
+    def __3__(self):
+        # NOTE: ticker = BBDC4, start = '2012-05-11', end = '2022-05-11', p = 1
+        W = lambda x, window_size=5: x.rolling(window_size).sum()
+        S = lambda x, window_size=5: x.rolling(window_size).std() / x.rolling(window_size).mean()
+        J = lambda x, window_size=5, quantile=0.5: x.rolling(window_size).quantile(quantile)
+        U = lambda x: x.diff().diff()
+        adj_close = self.df['Adj Close'].pct_change(1)                
+        low = self.df['Low'].pct_change(1)        
+        high = self.df['High'].pct_change(1)       
+        q = W(S(J(low, 6, 0.10) - J(high, 6, 0.10), 6), 6)
+        r = W(q, 4) / J(U(adj_close), 5, 0.75) 
+        u = r ** 2
+        return u

@@ -1,7 +1,7 @@
 
 import requests
 from typing import Union, List
-from pandas import concat
+from pandas import concat, DataFrame
 import os
 from requests.exceptions import RequestException
 
@@ -31,7 +31,7 @@ class GitHubScriptLoader:
     """
     BASE_URL = 'https://raw.githubusercontent.com/rianlucascs/predicao-dados-binarios/master/Scripts/'
 
-    FILES = ['alvos', 'features', 'graphs', 'machines', 'prices', 'result_predict', 'split_data'] 
+    FILES = ['alvos', 'features', 'graphs', 'machines', 'prices', 'result_predict', 'split_data', 'synthetic'] 
 
     def __init__(self, script_name: Union[str, None] = None, enable_debug: bool = False,
                  import_local: bool = False, path: str = ''):
@@ -192,7 +192,8 @@ class MarketForecastConfig:
                  features: Union[int, List[int], None] = [], start: str = 'YYYY-MM-DD',
                  end: str = 'YYYY-MM-DD', step_size: Union[int, None] = None,
                  ml_model: str = 'train_decision_tree', enable_debug: bool = False,
-                 contracts: int = 100, import_local: bool = False, path : str = ''):
+                 contracts: int = 100, import_local: bool = False, path : str = '',
+                 synthetic_serie: Union[None, str] = None):
         self.ticker = ticker
         self.p = p
         self.target_type = target_type
@@ -205,6 +206,7 @@ class MarketForecastConfig:
         self.contracts = contracts
         self.import_local = import_local
         self.path = path
+        self.synthetic_serie = synthetic_serie
 
 class MarketBehaviorForecaster(MarketForecastConfig):
     """
@@ -234,7 +236,10 @@ class MarketBehaviorForecaster(MarketForecastConfig):
         """
         try:
             # Carregamento dos dados de preços
-            df = GitHubScriptLoader('prices').object.get(self.ticker)
+            if self.synthetic_serie:
+                df = getattr(GitHubScriptLoader('synthetic').object, self.synthetic_serie)
+            else:
+                df = GitHubScriptLoader('prices').object.get(self.ticker)
 
             # Criação dos alvos
             df = getattr(GitHubScriptLoader('alvos').object(df, p=self.p), self.target_type)
@@ -287,8 +292,8 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise
 
-mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None
-                              ).run_forecast(external_variable=lambda x: x.Close.diff())
+# mb = MarketBehaviorForecaster('^BVSP', features=None, start='2012-05-11', end='2022-05-11', step_size=None
+#                               ).run_forecast(external_variable=lambda x: x.Close.diff())
 
 # print(mb['df']['df'])
 
