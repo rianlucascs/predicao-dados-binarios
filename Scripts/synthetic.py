@@ -1,6 +1,7 @@
 
 import requests
 import pandas as pd
+from pandas import to_datetime
 
 class Synthetic:
 
@@ -10,6 +11,7 @@ class Synthetic:
         exec(response.text, globals())
         monaco = MonteCarlo(ticker, 'max')
         result = monaco.simulacao(n_simulacao=1, custo_operacional=0)
+        result.index = to_datetime(result.index)
         return monaco.loc_sim(result, 0)
 
 
