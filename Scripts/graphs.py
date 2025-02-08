@@ -90,7 +90,9 @@ class Graphs:
         plt.tight_layout()
         
         # Exibir o gráfico
-        plt.show()
+        # plt.show()
+
+        return plt
 
 
     def hisplot(self):
@@ -126,7 +128,8 @@ class Graphs:
         # Exibir legenda e ajustar layout
         plt.legend(facecolor='white', edgecolor='black', frameon=True)
         plt.tight_layout()
-        plt.show()
+        # plt.show()
+        return plt
 
     def correlacao(self):
         """Gráfico de dispersão entre duas variáveis com informações estatísticas e melhorias visuais."""

@@ -292,10 +292,10 @@ class MarketBehaviorForecaster(MarketForecastConfig):
             print(f"Erro na execução: {e}")
             raise
 
-mb = MarketBehaviorForecaster('BBDC4.SA', features=None, start='2012-05-11', end='2022-05-11', step_size=None,
-                              ).run_forecast(external_variable=lambda x: x.Close.diff())
+# mb = MarketBehaviorForecaster('BBDC4.SA', features=None, start='2012-05-11', end='2022-05-11', step_size=None,
+#                               ).run_forecast(external_variable=lambda x: x.Close.diff())
 
-print(mb['df']['df'])
+# print(mb['df']['df'])
 
 
 class MarketBehaviorForecasterLocal(MarketForecastConfig):
