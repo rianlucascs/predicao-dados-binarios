@@ -173,8 +173,11 @@ class Graphs:
 
         # Layout do gráfico
         plt.tight_layout()
-        plt.show()
+        
+        # plt.show()
 
+        return plt
+        
     def barplot(self):
         """Gráfico de barras para retornos anuais com barras mais finas."""
         self.df = self.df.reset_index()
@@ -215,7 +218,11 @@ class Graphs:
 
         # Ajustes do layout
         plt.tight_layout()
-        plt.show()
+
+        # plt.show()
+
+        return plt
+
 
     def pio(self):
         dados = self.df.filter(like=self.column).value_counts()
@@ -252,7 +259,10 @@ class Graphs:
 
         # Ajuste para o layout mais limpo e bonito
         plt.tight_layout()
-        plt.show()
+
+        # plt.show()
+        
+        return plt
 
     def comparar_retornos(self, retorno_data):
         """
@@ -306,7 +316,10 @@ class Graphs:
         plt.tight_layout(pad=3.0)  # Aumentar o espaçamento entre os elementos
 
         # Exibir o gráfico
-        plt.show()
+
+        # plt.show()
+
+        return plt
 
     def comparar_metricas(self, metric_data):
         """
@@ -363,4 +376,7 @@ class Graphs:
         plt.tight_layout(pad=3.0)  # Aumentar o espaçamento entre os elementos
 
         # Exibir o gráfico
-        plt.show()
+        
+        # plt.show()
+
+        return plt
