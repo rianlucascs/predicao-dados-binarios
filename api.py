@@ -310,7 +310,7 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
         ``run_forecast_local()``:
             Executa o pipeline completo de previsão utilizando scripts locais.
     """
-    def run_forecast_local(self):
+    def run_forecast_local(self, correct_error_monday=False):
         """
         Executa o pipeline de previsão de mercado utilizando scripts locais.
 
@@ -348,6 +348,11 @@ class MarketBehaviorForecasterLocal(MarketForecastConfig):
         try:
             # Carregamento dos dados de preços
             df = prices.Prices.get(self.ticker)
+
+            # Se segunda feira e meu ultimo preco do yf for de quinta então adicionar o preco se sexta do mt5
+            # Isso afeata a previsão da segunda. Em modelos mais sensíveis pode haver inconsistências.
+            if correct_error_monday:
+                pass
             
             # Criação dos alvos
             df = getattr(alvos.Alvos(df, p=self.p), self.target_type)

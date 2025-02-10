@@ -106,4 +106,4 @@ class SplitData:
         Returns:
             pd.DataFrame: Dados pós-teste.
         """
-        return self.df.loc[self.end:].iloc[1:].dropna() # <-!
+        return self.df.loc[self.end:].iloc[1:] # .dropna() # <-!

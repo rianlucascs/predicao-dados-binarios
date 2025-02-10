@@ -104,6 +104,7 @@ class Machines:
             pandas.DataFrame: Conjunto pós-teste com as predições.
         """
         self.after_test['predicao'] = self._apply_predict(model, self.x_after_test)
+
         return self.after_test
 
     def evaluate(self):
@@ -128,11 +129,11 @@ class Machines:
         test_confusion = confusion_matrix(self.y_test, self.test['predicao'])
 
         # Avaliação no conjunto after_test
-        after_test_accuracy = accuracy_score(self.y_after_test, self.after_test['predicao'])
-        after_test_precision = precision_score(self.y_after_test, self.after_test['predicao'])
-        after_test_recall = recall_score(self.y_after_test, self.after_test['predicao'])
-        after_test_f1 = f1_score(self.y_after_test, self.after_test['predicao'])
-        after_test_confusion = confusion_matrix(self.y_after_test, self.after_test['predicao'])
+        after_test_accuracy = accuracy_score(self.y_after_test[:-1], self.after_test['predicao'][:-1])
+        after_test_precision = precision_score(self.y_after_test[:-1], self.after_test['predicao'][:-1])
+        after_test_recall = recall_score(self.y_after_test[:-1], self.after_test['predicao'][:-1])
+        after_test_f1 = f1_score(self.y_after_test[:-1], self.after_test['predicao'][:-1])
+        after_test_confusion = confusion_matrix(self.y_after_test[:-1], self.after_test['predicao'][:-1])
 
         return {
             "train": {

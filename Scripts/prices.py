@@ -1,8 +1,12 @@
 from yfinance import download
 import requests
-from pandas import read_csv, to_datetime
+from pandas import read_csv
 from io import StringIO
 import sys
+
+import MetaTrader5 as mt5
+from datetime import datetime, timedelta
+import pandas as pd
 
 # Função para gerar a URL de um setor específico, acessando o repositório do GitHub
 url_setor = lambda setor: f'https://raw.githubusercontent.com/rianlucascs/b3-scraping-project/master/processed_data/1.%20%C3%8Dndices%20de%20Segmentos%20e%20Setoriais/Setores/{setor}/Tabela_{setor}.csv'
@@ -74,6 +78,7 @@ class Prices:
 # # df.index = df.index.tz_localize(None)
 # date = datetime.strptime('2012-05-11', '%Y-%m-%d')
 # print(df.loc[date:])
+
 
     
 
